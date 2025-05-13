@@ -26,6 +26,7 @@ import hr from '../../resources/l10n/hr.json'; import 'dayjs/locale/hr';
 import hu from '../../resources/l10n/hu.json'; import 'dayjs/locale/hu';
 import id from '../../resources/l10n/id.json'; import 'dayjs/locale/id';
 import it from '../../resources/l10n/it.json'; import 'dayjs/locale/it';
+import is from '../../resources/l10n/is.json'; import 'dayjs/locale/is';
 import ja from '../../resources/l10n/ja.json'; import 'dayjs/locale/ja';
 import ka from '../../resources/l10n/ka.json'; import 'dayjs/locale/ka';
 import kk from '../../resources/l10n/kk.json'; import 'dayjs/locale/kk';
@@ -85,6 +86,7 @@ const languages = {
   hu: { data: hu, country: 'HU', name: 'Magyar' },
   id: { data: id, country: 'ID', name: 'Bahasa Indonesia' },
   it: { data: it, country: 'IT', name: 'Italiano' },
+  is: { data: is, country: 'IS', name: 'Íslenska' },
   ja: { data: ja, country: 'JP', name: '日本語' },
   ka: { data: ka, country: 'GE', name: 'ქართული' },
   kk: { data: kk, country: 'KZ', name: 'Қазақша' },

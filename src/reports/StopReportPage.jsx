@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
@@ -53,6 +53,8 @@ const StopReportPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [flexBasis, setFlexBasis] = useState('65%');
+  const containerMapRef = useRef(null);
 
   const handleSubmit = useCatch(async ({ deviceIds, groupIds, from, to, type }) => {
     const query = new URLSearchParams({ from, to });
@@ -115,11 +117,34 @@ const StopReportPage = () => {
     }
   };
 
+  const handleMouseDown = (e) => {
+    const startY = e.clientY;
+    const startHeight = containerMapRef.current.offsetHeight;
+
+    const handleMouseMove = (event) => {
+      const newHeight = startHeight + (event.clientY - startY);
+      const newFlexBasis = `${(newHeight / window.innerHeight) * 100}%`;
+      setFlexBasis(newFlexBasis);
+    };
+
+    const handleMouseUp = () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+
   return (
     <PageLayout menu={<ReportsMenu />} breadcrumbs={['reportTitle', 'reportStops']}>
       <div className={classes.container}>
         {selectedItem && (
-          <div className={classes.containerMap}>
+          <div
+            ref={containerMapRef}
+            className={classes.containerMap}
+            style={{ flexBasis, position: 'relative' }}
+          >
             <MapView>
               <MapGeofence />
               <MapPositions
@@ -134,6 +159,18 @@ const StopReportPage = () => {
             </MapView>
             <MapScale />
             <MapCamera latitude={selectedItem.latitude} longitude={selectedItem.longitude} />
+            <div
+              style={{
+                height: '5px',
+                backgroundColor: 'gray',
+                cursor: 'row-resize',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+              }}
+              onMouseDown={handleMouseDown}
+            />
           </div>
         )}
         <div className={classes.containerMain}>
